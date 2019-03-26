@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="MyFrame" />
+        <module name="shiro" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="1.8" />
+      <module name="demo1" target="1.8" />
+      <module name="myframe-myshiro" target="1.8" />
+      <module name="myshiro" target="1.8" />
+      <module name="myshiro1" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="demo" options="-parameters" />
+      <module name="demo1" options="-parameters" />
+      <module name="myframe-myshiro" options="-parameters" />
+      <module name="myshiro" options="-parameters" />
+      <module name="myshiro1" options="-parameters" />
+      <module name="shiro" options="-parameters" />
+    </option>
+  </component>
+</project>
