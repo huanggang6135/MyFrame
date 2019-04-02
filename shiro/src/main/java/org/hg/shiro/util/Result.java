@@ -16,9 +16,15 @@ import java.io.Serializable;
 @ToString
 public class Result<T> implements Serializable {
     public static final int SUCCESS_CODE = 200;
-    public static final int FAIRE_CODE = 200;
+    public static final int FAILURE_CODE = 500;
 
     private int code = SUCCESS_CODE;
-    private String messge;
+    private String message;
     private T result;
+
+    public Result setFailureMessage(String message){
+        this.code = FAILURE_CODE;
+        this.message = message;
+        return this;
+    }
 }
