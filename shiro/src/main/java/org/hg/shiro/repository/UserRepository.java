@@ -1,5 +1,6 @@
 package org.hg.shiro.repository;
 
+import lombok.NonNull;
 import org.hg.shiro.dto.User;
 import org.hg.shiro.repository.base.BaseRepository;
 import org.springframework.stereotype.Repository;
@@ -11,9 +12,9 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface UserRepository extends BaseRepository<User, String> {
-    /** 通过name查找用户
+    /** 通过名称查找用户
      * @param name
      * @return
      */
-    User findByName(String name);
+    User findByName(@NonNull String name);
 }

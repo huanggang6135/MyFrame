@@ -3,10 +3,8 @@ package org.hg.shiro.dto;
 import lombok.*;
 import org.hg.shiro.dto.base.BaseDTO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @Author hg
@@ -18,16 +16,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_shiro_user")
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor()
 @ToString
 public class User extends BaseDTO {
 
     private static final long serialVersionUID = -8467126410988933720L;
     @Id
-    @Column
-    private String id;
+    @Column(length = 32)
+    @NonNull private String id;
     @Column(unique = true)
-    private String name;
+    @NonNull private String name;
     @Column
-    private String password;
+    @NonNull private String password;
+    @Column
+    @NonNull private int salt;
+    @Transient
+    private Set<String> roles;
+    @Transient
+    private Set<String> sources;
 }

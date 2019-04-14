@@ -1,14 +1,12 @@
 package org.hg.shiro.dto.base;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @Author hg
@@ -17,14 +15,12 @@ import java.time.LocalDateTime;
  **/
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@Setter
-@Getter
 public abstract class BaseDTO implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     @Column(nullable = false)
-    private LocalDateTime createTime;
+    protected Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    private LocalDateTime updateTime;
+    protected Date updateTime;
 }

@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MyFrame" />
+        <module name="myutil" />
         <module name="shiro" />
       </profile>
     </annotationProcessing>
@@ -14,6 +14,7 @@
       <module name="demo" target="1.8" />
       <module name="demo1" target="1.8" />
       <module name="myframe-myshiro" target="1.8" />
+      <module name="myMvc" target="1.8" />
       <module name="myshiro" target="1.8" />
       <module name="myshiro1" target="1.8" />
     </bytecodeTargetLevel>

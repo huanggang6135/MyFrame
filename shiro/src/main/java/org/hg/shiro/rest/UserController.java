@@ -17,23 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping(value = "/api/user")
-@Api(value = "/api/user", description = "用户信息接口")
+@RequestMapping(value = "/user")
+@Api(value = "/user", description = "用户信息接口")
 public class UserController {
     @Autowired
     UserService userService;
     @RequestMapping(value = "addUser", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ApiOperation(value = "添加用户")
-    public Result addUser(String username, String password) {
+    public String addUser(String username, String password) {
         Result<Object> result = new Result<>();
         if(userService.findByName(username) != null){
-            return result.setFailureMessage("用户名已存在");
+            return result.failMessage("用户名已存在").toJsonString();
         }
         User user = userService.addUser(username, password);
         if (null == user) {
-            return result.setFailureMessage("添加用户失败");
+            return result.failMessage("添加用户失败").toJsonString();
         }
-        return result;
+        return result.toJsonString();
     }
 
     @RequestMapping(value = "findUserById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
@@ -49,23 +49,21 @@ public class UserController {
     }
     @Synchronized
     @RequestMapping(value="deleteById", method = RequestMethod.POST)
-    public Result<Object> deleteById(String id){
+    public String deleteById(String id){
         Result<Object> result = new Result<>();
         User user = userService.findUserById(id);
         if(null != user){
             userService.deleteUser(user);
         }
-        result.setMessage("删除成功");
-        return result;
+        return result.toJsonString();
     }
     @RequestMapping(value="deleteByName", method = RequestMethod.POST)
-    public Result<Object> deleteByName(String Name){
+    public String deleteByName(String name){
         Result<Object> result = new Result<>();
-        User user = userService.findByName(Name);
+        User user = userService.findByName(name);
         if(null != user){
             userService.deleteUser(user);
         }
-        result.setMessage("删除成功");
-        return result;
+        return result.toJsonString();
     }
 }

@@ -7,6 +7,11 @@
     <groupId>org.hg</groupId>
     <artifactId>MyFrame</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>myutil</module>
+        <module>shiro</module>
+    </modules>
+    <packaging>pom</packaging>
 
 
 </project>
