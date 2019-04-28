@@ -48,9 +48,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/toLogin", "anon");
         /*** ============ 开放swagger2访问权限  ================= **/
-        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-        filterChainDefinitionMap.put("/v2/**", "anon");
-        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "roles[admin]");
+        filterChainDefinitionMap.put("/v2/**", "roles[admin]");
+        filterChainDefinitionMap.put("/swagger-ui.html", "roles[admin]");
         /*** ============ 其余地址全部权限验证  ================= **/
         filterChainDefinitionMap.put("/**", "authc");
         factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

@@ -4,8 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import java.util.Optional;
-
 /**
  * @Author hg
  * @Date 2019/3/26 11:21
@@ -18,10 +16,6 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
      * @return
      */
     default T findOne(ID id){
-        Optional<T> byId = findById(id);
-        if(byId.isPresent()){
-            return byId.get();
-        }
-        return null;
+        return findById(id).orElseGet(null);
     }
 }

@@ -37,18 +37,18 @@ public class BaseControllerAdvice {
         return result;
     }
     @ExceptionHandler(MyException.class)
-    public String myException(MyException e){
+    public Result myException(MyException e){
         Result<Object> result = new Result<>();
         result.setCode(e.getCode());
         result.setMessage(e.getMsg());
-        return result.toJsonString();
+        return result;
     }
-    @ExceptionHandler
+
+    @ExceptionHandler(Exception.class)
     public Result exception(Exception e){
         Result<Object> result = new Result<>();
         result.setCode(Result.EXCEPTION_CODE);
         result.setMessage(e.getMessage());
         return result;
     }
-
 }

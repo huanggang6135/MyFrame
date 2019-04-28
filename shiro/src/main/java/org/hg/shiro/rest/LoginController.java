@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.hg.shiro.configuration.session.ShiroSessionListener;
 import org.hg.shiro.util.MyException;
 import org.hg.shiro.util.Result;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping
-@Api(description = "登录登出")
+@Api("登录登出")
 public class LoginController {
     @GetMapping("/toLogin")
     public Result toLogin(){
@@ -33,9 +34,15 @@ public class LoginController {
         try{
             subject.login(token);
         } catch (Exception e){
-            throw new MyException(Result.FAILURE_CODE, "登录失败");
+            throw new MyException(Result.FAILURE_CODE, "登录失败:账号/密码错误");
         }
         return result.toJsonString();
+    }
+    @ApiOperation("登出")
+    @GetMapping("/logout")
+    public String logout(){
+        SecurityUtils.getSubject().logout();
+        return new Result<>().toJsonString();
     }
     @GetMapping("/unauthorized")
     public Result unauthorized(){
@@ -44,5 +51,10 @@ public class LoginController {
     @GetMapping("/")
     public Result index(){
         return new Result().successMessage("主页");
+    }
+    @GetMapping("/onLineNum")
+    @ApiOperation("获取在线人数")
+    public String onLineNum(){
+        return  ShiroSessionListener.getCount()+"";
     }
 }

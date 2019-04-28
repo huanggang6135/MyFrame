@@ -59,7 +59,7 @@ public class ControllerLogAspect {
     public void doAfterThrowing(JoinPoint joinPoint, Throwable exception){
         OperateLog operateLog = initLog(joinPoint);
         if(exception != null){
-            operateLog.setException(get225(exception.getMessage()));
+            operateLog.setException(get225(exception.toString()));
         }
         operateLogService.save(operateLog);
         log.info("用户：{} 请求： {} 异常： {}",
@@ -87,6 +87,6 @@ public class ControllerLogAspect {
     }
 
     private String get225(String str) {
-        return str.length() > 255 ? str.substring(0, 255) : str;
+        return str!=null?str.length() > 255 ? str.substring(0, 255) : str:"";
     }
 }

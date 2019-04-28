@@ -8,9 +8,8 @@ import org.hg.shiro.service.RoleService;
 import org.hg.shiro.service.UserService;
 import org.hg.shiro.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author hg
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping("/admin")
-@Api(value = "/admin", description = "管理员资源操作")
+@RequestMapping("/admin/resource")
+@Api("管理员资源操作")
 public class ResourceController {
     @Autowired
     private ResourceService resourceService;
@@ -27,27 +26,37 @@ public class ResourceController {
     private RoleService roleService;
     @Autowired
     private UserService userService;
-    @RequestMapping(value = "/addResource", method = RequestMethod.POST)
+    @PostMapping(value = "/")
     @ApiOperation(value="添加资源")
-    public Result addResource(String key, String name, String note){
+    public String addResource(@RequestBody Resource resource){
         Result<String> result = new Result<>();
-        if(resourceService.findByKey(key) != null){
-            return result.failMessage("资源key已存在");
+        if(resourceService.findByKey(resource.getKey()) != null){
+            return result.failMessage("资源key已存在").toJsonString();
         }
-        Resource resource = resourceService.add(key, name, note);
-        if(resource == null){
-            return result.failMessage("添加资源失败");
+        Resource resource1 = resourceService.add(resource.getKey(), resource.getName(),resource.getNote());
+        if(resource1 == null){
+            return result.failMessage("添加资源失败").toJsonString();
         }
-        return result;
+        return result.toJsonString();
     }
-    @RequestMapping(value = "/findResourceById", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     @ApiOperation(value="查找资源")
-    public Resource findResourceById(String id){
-        return resourceService.findById(id);
+    public String findResourceById(@PathVariable String id){
+        Resource resource = resourceService.findById(id);
+        return new Result<>().result(resource).toJsonString();
     }
-    @RequestMapping(value = "/deleteResourceById", method = RequestMethod.GET)
-    @ApiOperation(value="删除资源")
-    public Resource deleteResourceById(String id){
-        return resourceService.findById(id);
+    @GetMapping("/page")
+    @ApiOperation("分页查询")
+    public Result page(@RequestParam(required=false, defaultValue="0") int start,
+                       @RequestParam(required = false, defaultValue = "10") int length,
+                       @RequestParam(required = false) String find){
+        Page page = resourceService.find(start, length, find);
+        return new Result<>().result(page);
+    }
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除资源")
+    public String deleteResourceById(@PathVariable String id){
+        resourceService.delete(id);
+        return new Result<String>().toJsonString();
     }
 }

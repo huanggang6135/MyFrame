@@ -8,6 +8,9 @@ import org.hg.shiro.repository.UserRoleRepository;
 import org.hg.shiro.util.Encrypts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Stream;
 
 /**
  * @Author hg
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  **/
 @Service
+@Transactional(rollbackFor={RuntimeException.class, Exception.class})
 public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
@@ -32,11 +36,9 @@ public class RoleService {
 
     public boolean grantRole(String userId, String[] roleIds) {
         userRoleRepository.deleteUserRoleByUserId(userId);
-        for (String roleId : roleIds) {
-            if(roleRepository.findOne(roleId) != null){
-                userRoleRepository.save(new UserRole(Encrypts.uuid(), userId, roleId));
-            }
-        }
+        Stream.of(roleIds).filter(roleId->roleRepository.findById(roleId).isPresent()).forEach(
+                roleId->userRoleRepository.save(new UserRole(Encrypts.uuid(), userId, roleId))
+        );
         return true;
     }
 

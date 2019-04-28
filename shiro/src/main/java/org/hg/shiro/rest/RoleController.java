@@ -9,6 +9,7 @@ import org.hg.shiro.service.RoleService;
 import org.hg.shiro.service.UserService;
 import org.hg.shiro.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +43,7 @@ public class RoleController {
         }
         return result;
     }
-
+    @Transient
     @RequestMapping(value = "/grantRole", method = RequestMethod.POST)
     @ApiOperation(value = "给用户赋予角色")
     public Result grantRole(String userId, String... roles) {
@@ -53,6 +54,7 @@ public class RoleController {
         }
         return result;
     }
+    @Transient
     @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
     @ApiOperation(value = "删除角色")
     public String deleteRole(String roleId){
